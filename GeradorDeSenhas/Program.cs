@@ -11,7 +11,7 @@ namespace GeradorDeSenhas
         static string caracteresEspeciais = "!@#$%^&?";
         static bool continuar = true;
         static Dictionary<string, string> senhasSalvas = new Dictionary<string, string>();
-        static string text = "";
+        static string text;
 
         static Random random = new Random();
         static void Main(string[] args)
@@ -19,7 +19,7 @@ namespace GeradorDeSenhas
             Console.ForegroundColor = ConsoleColor.Green;
             Console.Title = "Gerador de Senhas";
             Print(text = "Bem Vindo ao Gerador de Senhas!");
-            
+
             while (continuar)
             {
                 Console.WriteLine("\n[1] - Gerar uma senha nova");
@@ -111,8 +111,8 @@ namespace GeradorDeSenhas
             while (!descricaoValida)
             {
                 Console.WriteLine("Adicione uma descrição para a sua senha:");
-                descricao = Console.ReadLine();
-                if (string.IsNullOrEmpty(descricao))
+                descricao = Console.ReadLine().Trim();
+                if (string.IsNullOrWhiteSpace(descricao))
                 {
                     Console.WriteLine("Digite uma descrição válida!");
                 }
@@ -182,11 +182,11 @@ namespace GeradorDeSenhas
             Print(text = "Consultar senha\n");
             Console.WriteLine("Digite a descrição da senha que deseja consultar");
             Console.Write("Descrição:");
-            string descricao = Console.ReadLine();
+            string descricao = Console.ReadLine().Trim();
 
             foreach (var senha in senhasSalvas)
             {
-                if (senha.Key.IndexOf(descricao, StringComparison.OrdinalIgnoreCase) >=0)
+                if (senha.Key.IndexOf(descricao, StringComparison.OrdinalIgnoreCase) >= 0)
                 {
                     Console.WriteLine($"Descrição: {senha.Key}, Senha: {senha.Value}");
                     encontrou = true;
@@ -204,34 +204,22 @@ namespace GeradorDeSenhas
         static void EditarSenha()
         {
             bool descricaoValida = false;
+            string novaDescricao = "";
             Console.Clear();
             Print(text = "Editar uma senha\n");
             Console.WriteLine("Digite a descrição da senha que deseja editar");
             Console.Write("Descrição:");
-            string descricao = Console.ReadLine();
+            string descricao = Console.ReadLine().Trim();
 
             if (senhasSalvas.ContainsKey(descricao))
             {
                 int qntdCaracter = 0;
                 bool qntdValida = false;
-                string novaDescricao = "";
+                bool verifica = false;
                 Console.Clear();
+                Print(text = "Editar uma senha\n");
                 Console.WriteLine($"Descrição: {descricao}, Senha: {senhasSalvas[descricao]}");
-                while (!descricaoValida)
-                {
-                    Console.WriteLine("Digite a nova descrição (ou pressione Enter para manter a mesma)");
-                    Console.Write("Descrição:");
-                    novaDescricao = Console.ReadLine();
-                    if (senhasSalvas.ContainsKey(novaDescricao))
-                    {
-                        Console.WriteLine("Já existe uma senha com essa descrição!");
-                    }
-                    else
-                    {
-                        descricaoValida = true;
-                    }
-                }
-                
+
                 while (!qntdValida)
                 {
                     Console.WriteLine("Deseja incluir quantos caracteres em sua senha? (Max: 32)");
@@ -256,7 +244,7 @@ namespace GeradorDeSenhas
 
                 Console.WriteLine("Deseja incluir letras maiúsculas? (S/N)");
                 bool incluirLetrasMaiusculas = Console.ReadLine().ToUpper() == "S";
-                Console.WriteLine("Deseja incluir letras maiúsculas? (S/N)");
+                Console.WriteLine("Deseja incluir letras minusculas? (S/N)");
                 bool incluirLetrasMinusculas = Console.ReadLine().ToUpper() == "S";
                 Console.WriteLine("Deseja incluir números? (S/N)");
                 bool incluirNumeros = Console.ReadLine().ToUpper() == "S";
@@ -272,18 +260,53 @@ namespace GeradorDeSenhas
 
                 string novaSenha = GerarSenha(qntdCaracter, incluirLetrasMaiusculas, incluirLetrasMinusculas, incluirNumeros, incluirCaracteresEspeciais);
 
-                if (string.IsNullOrEmpty(novaDescricao))
+                while (!descricaoValida)
                 {
-                    senhasSalvas[descricao] = novaSenha;
-                    Console.WriteLine($"Descrição: {descricao} \nSenha atualizada: {novaSenha}");
+                    Print(text = "Editar uma senha\n");
+                    Console.WriteLine("Deseja adicionar uma nova descrição? (s/n)");
+                    verifica = Console.ReadLine().ToUpper() == "S";
+
+                    if (verifica == true)
+                    {
+                        Console.Clear();
+                        Print(text = "Editar uma senha\n");
+                        Console.WriteLine("Digite a nova descrição:");
+                        Console.Write("Descrição:");
+                        novaDescricao = Console.ReadLine().Trim();
+                        if (string.IsNullOrWhiteSpace(novaDescricao))
+                        {
+                            Console.Clear();
+                            Console.WriteLine();
+                            Console.WriteLine("\nDigite uma descrição válida!");
+                        }
+                        else if (senhasSalvas.ContainsKey(novaDescricao))
+                        {
+                            Console.Clear();
+                            Console.WriteLine();
+                            Console.WriteLine("\n Já existe uma senha com essa descrição!");
+                            
+                        }
+                        else
+                        {
+                            senhasSalvas.Remove(descricao);
+                            senhasSalvas.Add(novaDescricao, novaSenha);
+                            Console.WriteLine($"Descrição: {novaDescricao} \nSenha atualizada: {novaSenha}");
+                            descricaoValida = true;
+                        }
+                    }
+                    else if (verifica == false)
+                    {
+                        Console.WriteLine("Descrição foi mantida");
+                        senhasSalvas[descricao] = novaSenha;
+                        Console.WriteLine($"Descrição: {descricao} \nSenha atualizada: {novaSenha}");
+                        descricaoValida = true;
+
+                    }
+                    else if (senhasSalvas.ContainsKey(novaDescricao))
+                    {
+                        Console.WriteLine("Já existe uma senha com essa descrição!");
+                    }
                 }
-                else
-                {
-                    senhasSalvas.Remove(descricao);
-                    senhasSalvas.Add(novaDescricao, novaSenha);
-                    Console.WriteLine($"Descrição: {novaDescricao} \nSenha atualizada: {novaSenha}");
-                }
-                
             }
             else if (senhasSalvas.Count == 0)
             {
@@ -296,14 +319,13 @@ namespace GeradorDeSenhas
         }
 
         //EXCLUIR
-
         static void ExcluirSenha()
         {
             Console.Clear();
             Print(text = "Excluir uma senha\n");
             Console.WriteLine("Digite a descrição da senha que deseja excluir");
             Console.Write("Descrição:");
-            string descricao = Console.ReadLine();
+            string descricao = Console.ReadLine().Trim();
 
             if (senhasSalvas.ContainsKey(descricao))
             {
