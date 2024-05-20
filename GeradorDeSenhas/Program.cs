@@ -28,7 +28,7 @@ namespace GeradorDeSenhas
                 Console.WriteLine("[4] - Excluir uma senha");
                 Console.WriteLine("[5] - Sair");
                 Console.Write("Opção: ");
-                var opcaoMenu = Console.ReadLine();
+                string opcaoMenu = Console.ReadLine();
 
                 switch (opcaoMenu)
                 {
@@ -284,7 +284,7 @@ namespace GeradorDeSenhas
                             Console.Clear();
                             Console.WriteLine();
                             Console.WriteLine("\n Já existe uma senha com essa descrição!");
-                            
+
                         }
                         else
                         {
@@ -294,17 +294,14 @@ namespace GeradorDeSenhas
                             descricaoValida = true;
                         }
                     }
-                    else if (verifica == false)
+
+                    else
                     {
                         Console.WriteLine("Descrição foi mantida");
                         senhasSalvas[descricao] = novaSenha;
                         Console.WriteLine($"Descrição: {descricao} \nSenha atualizada: {novaSenha}");
                         descricaoValida = true;
 
-                    }
-                    else if (senhasSalvas.ContainsKey(novaDescricao))
-                    {
-                        Console.WriteLine("Já existe uma senha com essa descrição!");
                     }
                 }
             }
