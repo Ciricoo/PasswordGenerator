@@ -15,14 +15,14 @@ namespace GeradorDeSenhas
             GeradorDeSenha gerarSenha = new GeradorDeSenha();
             Print print = new Print();
 
-            bool qntdValida = false;
-            bool descricaoValida = false;
+            bool qntdValida = true;
+            bool descricaoValida = true;
             int qntdCaracter = 0;
             string descricao = "";
             Console.Clear();
 
             print.PrintConsole("Gerar uma nova Senha\n");
-            while (!qntdValida)
+            while (qntdValida)
             {
                 Console.WriteLine("Deseja incluir quantos caracteres em sua senha? (Max: 32)");
                 string input = Console.ReadLine();
@@ -40,7 +40,7 @@ namespace GeradorDeSenhas
                 }
                 else
                 {
-                    qntdValida = true;
+                    qntdValida = false;
                 }
             }
             Console.WriteLine("Deseja incluir letras maiúsculas? (S/N)");
@@ -59,7 +59,7 @@ namespace GeradorDeSenhas
                 return;
             }
 
-            while (!descricaoValida)
+            while (descricaoValida)
             {
                 Console.WriteLine("Adicione uma descrição para a sua senha:");
                 descricao = Console.ReadLine().Trim();
@@ -73,7 +73,7 @@ namespace GeradorDeSenhas
                 }
                 else
                 {
-                    descricaoValida = true;
+                    descricaoValida = false;
                 }
             }
 
@@ -82,7 +82,7 @@ namespace GeradorDeSenhas
             SenhasSalvasDB.SenhasSalvas.Add(descricao, senhaGerada);
 
             Console.Clear();
-            print.PrintConsole("Bem Vindo ao Gerador de Senhas!\n");
+            print.PrintConsole("Gerar uma nova Senha\n");
             Console.WriteLine($"Descrição: {descricao} \nSenha gerada: {senhaGerada}");
 
         }

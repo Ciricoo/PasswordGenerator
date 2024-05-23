@@ -14,7 +14,7 @@ namespace GeradorDeSenhas
             Print print = new Print();  
             GeradorDeSenha gerarSenha = new GeradorDeSenha();
 
-            bool descricaoValida = false;
+            bool descricaoValida = true;
             string novaDescricao;
 
             Console.Clear();
@@ -26,13 +26,13 @@ namespace GeradorDeSenhas
             if (SenhasSalvasDB.SenhasSalvas.ContainsKey(descricao))
             {
                 int qntdCaracter = 0;
-                bool qntdValida = false;
+                bool qntdValida = true;
                 bool verifica = false;
                 Console.Clear();
                 print.PrintConsole("Editar uma senha\n");
                 Console.WriteLine($"Descrição: {descricao}, Senha: {SenhasSalvasDB.SenhasSalvas[descricao]}");
 
-                while (!qntdValida)
+                while (qntdValida)
                 {
                     Console.WriteLine("Deseja incluir quantos caracteres em sua senha? (Max: 32)");
                     string input = Console.ReadLine();
@@ -50,10 +50,9 @@ namespace GeradorDeSenhas
                     }
                     else
                     {
-                        qntdValida = true;
+                        qntdValida = false;
                     }
                 }
-
                 Console.WriteLine("Deseja incluir letras maiúsculas? (S/N)");
                 bool incluirLetrasMaiusculas = Console.ReadLine().ToUpper() == "S";
                 Console.WriteLine("Deseja incluir letras minusculas? (S/N)");
@@ -72,13 +71,13 @@ namespace GeradorDeSenhas
 
                 string novaSenha = gerarSenha.GerarSenha(qntdCaracter, incluirLetrasMaiusculas, incluirLetrasMinusculas, incluirNumeros, incluirCaracteresEspeciais);
 
-                while (!descricaoValida)
+                while (descricaoValida)
                 {
                     print.PrintConsole("Editar uma senha\n");
                     Console.WriteLine("Deseja adicionar uma nova descrição? (s/n)");
                     verifica = Console.ReadLine().ToUpper() == "S";
 
-                    if (verifica == true)
+                    if (verifica)
                     {
                         Console.Clear();
                         print.PrintConsole("Editar uma senha\n");
@@ -103,7 +102,7 @@ namespace GeradorDeSenhas
                             SenhasSalvasDB.SenhasSalvas.Remove(descricao);
                             SenhasSalvasDB.SenhasSalvas.Add(novaDescricao, novaSenha);
                             Console.WriteLine($"Descrição: {novaDescricao} \nSenha atualizada: {novaSenha}");
-                            descricaoValida = true;
+                            descricaoValida = false;
                         }
                     }
 
@@ -112,8 +111,7 @@ namespace GeradorDeSenhas
                         Console.WriteLine("Descrição foi mantida");
                         SenhasSalvasDB.SenhasSalvas[descricao] = novaSenha;
                         Console.WriteLine($"Descrição: {descricao} \nSenha atualizada: {novaSenha}");
-                        descricaoValida = true;
-
+                        descricaoValida = false;
                     }
                 }
             }
