@@ -82,7 +82,7 @@ namespace GeradorDeSenhas
             SenhasSalvasDB.SenhasSalvas.Add(descricao, senhaGerada);
 
             Console.Clear();
-            print.PrintConsole("Bem Vindo ao Gerador de Senhas!\n");
+            print.PrintConsole("Gerar uma nova Senha\n");
             Console.WriteLine($"Descrição: {descricao} \nSenha gerada: {senhaGerada}");
 
         }

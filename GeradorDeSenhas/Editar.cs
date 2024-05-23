@@ -53,7 +53,6 @@ namespace GeradorDeSenhas
                         qntdValida = true;
                     }
                 }
-
                 Console.WriteLine("Deseja incluir letras maiúsculas? (S/N)");
                 bool incluirLetrasMaiusculas = Console.ReadLine().ToUpper() == "S";
                 Console.WriteLine("Deseja incluir letras minusculas? (S/N)");
@@ -113,7 +112,6 @@ namespace GeradorDeSenhas
                         SenhasSalvasDB.SenhasSalvas[descricao] = novaSenha;
                         Console.WriteLine($"Descrição: {descricao} \nSenha atualizada: {novaSenha}");
                         descricaoValida = true;
-
                     }
                 }
             }
