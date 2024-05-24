@@ -14,7 +14,7 @@ namespace GeradorDeSenhas
         {
             GeradorDeSenha gerarSenha = new GeradorDeSenha();
             Print print = new Print();
-
+            
             bool qntdValida = true;
             bool descricaoValida = true;
             int qntdCaracter = 0;
