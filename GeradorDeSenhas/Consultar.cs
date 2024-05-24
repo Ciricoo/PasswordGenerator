@@ -18,29 +18,29 @@ namespace GeradorDeSenhas
             print.PrintConsole("Consultar senha\n");
             Console.WriteLine("Digite a descrição da senha que deseja consultar");
             Console.Write("Descrição:");
-
             string descricao = Console.ReadLine().Trim();
-            var filtroLista = SenhasSalvasDB.SenhasSalvas.Where(senhas => senhas.Key.Contains(descricao));
 
-            if (string.IsNullOrEmpty(descricao))
-            {
-                Console.WriteLine("Não existe descrição vazia!");
-                return;
-            }
-            else if(SenhasSalvasDB.SenhasSalvas.ContainsKey(descricao))
+            if (SenhasSalvasDB.SenhasSalvas.ContainsKey(descricao))
             {
                 Console.WriteLine($"Descrição: {descricao}, Senha: {SenhasSalvasDB.SenhasSalvas[descricao]}");
                 encontrou = true;
             }
-            else if (filtroLista.Any())
+            else if (string.IsNullOrEmpty(descricao))
             {
-                foreach (var item in filtroLista)
+                Console.WriteLine("Não existe descrição vazia!");
+                return;
+            }
+            else
+            {
+                foreach (var senha in SenhasSalvasDB.SenhasSalvas)
                 {
-                    Console.WriteLine($"Descrição: {item.Key}, Senha: {item.Value}");
-                    encontrou = true;
+                    if (senha.Key.IndexOf(descricao, StringComparison.OrdinalIgnoreCase) >= 0)
+                    {
+                        Console.WriteLine($"Descrição: {senha.Key}, Senha: {senha.Value}");
+                        encontrou = true;
+                    }
                 }
-            }  
-            
+            }
             if (!encontrou)
             {
                 Console.WriteLine($"Senha não encontrada!");
