@@ -20,12 +20,7 @@ namespace GeradorDeSenhas
             Console.Write("Descrição:");
             string descricao = Console.ReadLine().Trim();
 
-            if (SenhasSalvasDB.SenhasSalvas.ContainsKey(descricao))
-            {
-                Console.WriteLine($"Descrição: {descricao}, Senha: {SenhasSalvasDB.SenhasSalvas[descricao]}");
-                encontrou = true;
-            }
-            else if (string.IsNullOrEmpty(descricao))
+            if (string.IsNullOrEmpty(descricao))
             {
                 Console.WriteLine("Não existe descrição vazia!");
                 return;
