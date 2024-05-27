@@ -52,6 +52,8 @@ namespace GeradorDeSenhas
             Console.WriteLine("Deseja incluir caracteres especiais? (S/N)");
             bool incluirCaracteresEspeciais = Console.ReadLine().ToUpper() == "S";
 
+
+
             if (!incluirLetrasMaiusculas && !incluirNumeros && !incluirLetrasMinusculas && !incluirCaracteresEspeciais)
             {
                 Console.Clear();

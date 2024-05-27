@@ -17,34 +17,33 @@ namespace GeradorDeSenhas
             string numeros = "1234567890";
             string caracteresEspeciais = "!@#$%^&?";
 
-            List<char> caracteresSenha = new List<char>();
-
+            string caracteresSenha = "";
 
             if (incluirLetrasMaiusculas)
             {
-                caracteresSenha.AddRange(letrasMaiusculas);
+                caracteresSenha += letrasMaiusculas;
             }
 
             if (incluirLetrasMinusculas)
             {
-                caracteresSenha.AddRange(letrasMinusculas);
+                caracteresSenha += letrasMinusculas;
             }
 
             if (incluirNumeros)
             {
-                caracteresSenha.AddRange(numeros);
+                caracteresSenha += numeros;
             }
 
             if (incluirCaracteresEspeciais)
             {
-                caracteresSenha.AddRange(caracteresEspeciais);
+                caracteresSenha += caracteresEspeciais;
             }
 
             string senhaGerada = "";
 
             for (int i = 0; i < qntdCaracter; i++)
             {
-                int index = random.Next(caracteresSenha.Count);
+                int index = random.Next(caracteresSenha.Length);
                 senhaGerada += caracteresSenha[index];
             }
             Console.Clear();
